@@ -1,0 +1,6 @@
+{
+  "name": "Jackisa Stream",
+  "description": "Video streaming platform with live broadcasts, creator store, and revenue tracking",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

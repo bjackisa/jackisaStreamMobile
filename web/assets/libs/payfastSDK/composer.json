@@ -1,5 +1,0 @@
-{
-    "require": {
-        "payfast/payfast-php-sdk": "^1.1"
-    }
-}
