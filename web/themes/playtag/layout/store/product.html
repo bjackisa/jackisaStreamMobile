@@ -1,0 +1,155 @@
+<div class="py-4 pb-5 container store_product_page">
+	<div class="mb-3">
+		<a href="{{STORE_URL}}" data-load="?link1=timeline&id={{SELLER_USERNAME}}&page=store" class="text-muted">{{SELLER_NAME}}</a>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-7">
+			<?php if ($data['GALLERY_EMPTY']) { ?>
+				<div class="content store_gallery_placeholder mb-3"></div>
+			<?php } else { ?>
+				<div class="content p-2 mb-3 store_gallery">{{GALLERY_HTML}}</div>
+			<?php } ?>
+
+			<div class="content p-4 mb-3">
+				<h4 class="mb-3">Description</h4>
+				<div class="text-muted">{{P_DESCRIPTION}}</div>
+			</div>
+
+			<?php if (!empty($data['HAS_ATTRS'])) { ?>
+				<div class="content p-4 mb-3">
+					<h4 class="mb-3">Details</h4>
+					<table class="store_attr_table"><tbody>{{ATTR_ROWS}}</tbody></table>
+				</div>
+			<?php } ?>
+
+			<div class="content p-4">
+				<h4 class="mb-3">Reviews ({{REVIEWS_COUNT}})</h4>
+				<?php if (empty($data['REVIEWS_HTML'])) { ?>
+					<p class="text-muted mb-0">No reviews yet.</p>
+				<?php } else { ?>
+					{{REVIEWS_HTML}}
+				<?php } ?>
+				<?php if ($data['CAN_BUY']) { ?>
+					<hr class="my-4">
+					<h6 class="mb-3">Leave a review</h6>
+					<form class="store_review_form" data-product="{{P_ID}}">
+						<div class="form-group">
+							<select class="form-control" name="rating" id="store_review_rating">
+								<option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; &mdash; Excellent</option>
+								<option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; &mdash; Good</option>
+								<option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; &mdash; Average</option>
+								<option value="2">&#9733;&#9733;&#9734;&#9734;&#9734; &mdash; Poor</option>
+								<option value="1">&#9733;&#9734;&#9734;&#9734;&#9734; &mdash; Terrible</option>
+							</select>
+							<label for="store_review_rating">Rating</label>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" name="title" id="store_review_title" placeholder=" ">
+							<label for="store_review_title">Review title</label>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" name="body" id="store_review_body" rows="3" placeholder=" "></textarea>
+							<label for="store_review_body">Your review</label>
+						</div>
+						<button type="submit" class="btn btn-main">Submit review</button>
+					</form>
+				<?php } ?>
+			</div>
+		</div>
+
+		<div class="col-lg-5">
+			<div class="content p-4 product_sticky">
+				<?php if ($data['P_KIND'] == 'service') { ?><span class="store_status store_status-active mb-2 d-inline-block">Service</span><?php } ?>
+				<h1 class="h3 mb-2">{{P_TITLE}}</h1>
+				<?php if ($data['P_RATING_C'] > 0) { ?>
+					<div class="mb-2 main">&#9733; {{P_RATING}} <span class="text-muted">({{P_RATING_C}} reviews)</span></div>
+				<?php } ?>
+				<div class="mb-3">
+					<span class="h3 main mr-2">{{P_PRICE}}</span>
+					<?php if ($data['P_HAS_DISCOUNT']) { ?><del class="text-muted">{{P_BASE_PRICE}}</del><?php } ?>
+				</div>
+				<?php if (!empty($data['BENEFIT_HTML']) || !empty($data['ADDON_HTML'])) { ?>
+					<div class="mb-3"><?php echo $data['BENEFIT_HTML'] . $data['ADDON_HTML']; ?></div>
+				<?php } ?>
+
+				<?php if ($data['IS_OWNER']) { ?>
+					<a href="{{LINK store?tab=myshop}}" data-load="?link1=store&tab=myshop" class="btn btn-light w-100">Manage listing</a>
+					<?php if (!empty($_GET['target_id']) && !empty($_GET['target_type'])) { ?>
+						<button type="button" class="btn btn-main w-100 mt-2 store_attach_btn" data-product="{{P_ID}}" data-target-type="<?php echo htmlentities($_GET['target_type'], ENT_QUOTES); ?>" data-target-id="<?php echo (int) $_GET['target_id']; ?>">Attach to this content</button>
+					<?php } ?>
+				<?php } elseif ($data['CAN_BUY']) { ?>
+					<?php if ($data['IS_SERVICE']) { ?>
+						<div class="form-group">
+							<select class="form-control" id="store_slot"><?php echo $data['SLOTS_HTML']; ?></select>
+							<label for="store_slot">Choose a time</label>
+						</div>
+						<button type="button" class="btn btn-main w-100 store_book_btn" data-product="{{P_ID}}"><?php echo PT_StoreBasketIcon(); ?> Book now</button>
+					<?php } else { ?>
+						<?php if ($data['HAS_VARIANTS']) { ?>
+							<div class="form-group">
+								<select class="form-control" id="store_variant">
+									<option value="">Default</option>
+									{{VARIANTS_HTML}}
+								</select>
+								<label for="store_variant">Option</label>
+							</div>
+						<?php } ?>
+						<div class="form-group">
+							<input type="number" class="form-control" id="store_qty" value="1" min="1" placeholder=" ">
+							<label for="store_qty">Quantity</label>
+						</div>
+						<?php if ($data['DELIVERY_MODE'] === 'both' || $data['DELIVERY_MODE'] === 'pickup') { ?>
+							<div class="form-group">
+								<select class="form-control" id="store_delivery_mode">
+									<?php if ($data['DELIVERY_MODE'] !== 'pickup') { ?><option value="deliver">Delivered to me</option><?php } ?>
+									<option value="pickup">I will pick it up</option>
+								</select>
+								<label for="store_delivery_mode">Delivery</label>
+							</div>
+						<?php } else { ?>
+							<input type="hidden" id="store_delivery_mode" value="deliver">
+						<?php } ?>
+						<?php if (!empty($data['HAS_PICKUP'])) { ?>
+							<div class="form-group">
+								<select class="form-control" id="store_pickup_choice"><?php echo $data['PICKUP_HTML']; ?></select>
+								<label for="store_pickup_choice">Pickup point</label>
+							</div>
+						<?php } ?>
+						<div class="form-group">
+							<select class="form-control" id="store_buyer_location"><?php echo $data['LOCATIONS_HTML']; ?></select>
+							<label for="store_buyer_location">Delivery location</label>
+						</div>
+						<div class="store_price_break mb-3" style="display:none">
+							<div class="row-line"><span>Delivery fee</span><span id="store_delivery_quote">&mdash;</span></div>
+							<div class="row-line"><span id="store_quote_note" class="text-muted"></span></div>
+						</div>
+						<button type="button" class="btn btn-main w-100 store_buy_btn" data-product="{{P_ID}}"><?php echo PT_StoreBasketIcon(); ?> Order now</button>
+					<?php } ?>
+					<?php if (!$data['HAS_BUYER_TERMS']) { ?>
+						<form class="store_consent_buyer mt-3">
+							<div class="custom-control custom-checkbox mb-2">
+								<input type="checkbox" class="custom-control-input store_buyer_terms_check" id="store_buyer_terms">
+								<label class="custom-control-label" for="store_buyer_terms">
+									I agree to the <a href="{{TERMS_URL}}" target="_blank">Store terms</a>, refund and privacy policies.
+								</label>
+							</div>
+							<button type="submit" class="btn btn-light w-100 btn-sm">Accept policies to order</button>
+						</form>
+					<?php } ?>
+				<?php } else { ?>
+					<a href="{{LINK login}}" data-load="?link1=login" class="btn btn-main w-100">Log in to order or book</a>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="{{CONFIG theme_url}}/js/store.js?version=<?php echo PT_AssetVersion('js/store.js'); ?>"></script>
+<script>
+	window.PT_STORE_PRODUCT = {
+		id: {{P_ID}},
+		kind: '<?php echo $data['P_KIND']; ?>',
+		title: '<?php echo addslashes(str_replace("'", "", $data['P_TITLE'])); ?>',
+		price: '<?php echo $data['P_PRICE']; ?>'
+	};
+</script>

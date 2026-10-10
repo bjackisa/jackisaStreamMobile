@@ -1,0 +1,294 @@
+/*
+
+Add here your custom css styles Example: p { text-align: center; color: red; }
+
+*/
+
+/* ==========================================================================
+   Jackisa Store - playtag theme visuals
+   Mirrors the wallet / dashboard / balance look: rounded surfaces, soft tint
+   fills, one accent colour (--main) and full light + night-mode support.
+   ========================================================================== */
+.store_page, .store_product_page, .store_order_page, .store_settings_page { --store-radius: 16px; --store-line: #eceff4; --store-surface: #f4f6fa; --store-tint-soft-green: #e5f6ec; }
+
+/* Status pills */
+.store_status { display:inline-flex;align-items:center;gap:5px;padding:3px 11px;border-radius:20px;font-size:12px;font-weight:600;line-height:1.5;background:#eef0f4;color:#5b6472;text-transform:capitalize;white-space:nowrap; }
+.store_status:before { content:'';width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.85; }
+.store_status-active,.store_status-paid,.store_status-approved,.store_status-released { background:#e5f6ec;color:#1c7c46; }
+.store_status-pending,.store_status-confirmed,.store_status-review,.store_status-draft { background:#fff4e0;color:#9a6600; }
+.store_status-rejected,.store_status-cancelled,.store_status-refunded { background:#fdeaea;color:#a52222; }
+.store_status-inactive,.store_status-escrow { background:#eef0f4;color:#666; }
+
+/* ---- Shared chips -------------------------------------------------------- */
+.store_chip { display:inline-flex;align-items:center;padding:2px 9px;border-radius:8px;background:var(--store-surface);color:#5b6472;font-size:11.5px;font-weight:600; }
+.store_chip.muted { background:transparent;color:#9aa2b1;font-weight:500; }
+
+/* ---- Product cards (browse grid, storefront, dashboard) ------------------
+   A quiet marketplace card: square cover, uncluttered body, single accent for
+   price + action. Contrasts stay AA in both light and night mode. */
+.store_grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(216px,1fr));gap:20px; }
+.store_card { display:flex;flex-direction:column;overflow:hidden;padding:0;position:relative;border-radius:var(--store-radius);border:1px solid var(--store-line);background:#fff;box-shadow:0 1px 2px rgba(16,24,40,.04);transition:box-shadow .25s ease,transform .25s ease,border-color .25s ease; }
+.store_card:hover { box-shadow:0 20px 36px -18px rgba(20,24,40,.32);transform:translateY(-4px);border-color:transparent; }
+.store_card:focus-within { border-color:var(--main); }
+.store_card_thumb { position:relative;display:block;aspect-ratio:1/1;background:linear-gradient(135deg,var(--store-surface),#e9ecf3);overflow:hidden; }
+.store_card_thumb img { width:100%;height:100%;object-fit:cover;transition:transform .5s ease; }
+.store_card:hover .store_card_thumb img { transform:scale(1.05); }
+.store_card_noimg { display:flex;align-items:center;justify-content:center;height:100%;color:#c3c9d4; }
+.store_card_noimg svg { width:44px;height:44px; }
+.store_card_flag { position:absolute;bottom:10px;left:10px;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:700;letter-spacing:.35px;text-transform:uppercase;background:rgba(17,20,28,.72);color:#fff;backdrop-filter:blur(4px); }
+.store_card_status { position:absolute;top:10px;left:10px; }
+.store_card_body { padding:13px 15px 15px;display:flex;flex-direction:column;gap:7px;flex:1; }
+.store_card_seller { display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:#98a1b0;text-decoration:none;text-transform:uppercase;letter-spacing:.7px; }
+.store_card_seller svg { width:12px;height:12px;flex:0 0 auto; }
+.store_card_seller:hover { color:var(--main); }
+.store_card_title { font-size:14.5px;line-height:1.38;margin:0;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.76em;letter-spacing:-.1px; }
+.store_card_title a { color:inherit; }
+.store_card_title a:hover { color:var(--main); }
+.store_card_rating { display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#8b93a2;line-height:1; }
+.store_card_rating .stars { position:relative;display:inline-block;letter-spacing:1px;font-size:12px;color:#e2e6ee;white-space:nowrap; }
+.store_card_rating .stars i { position:absolute;top:0;left:0;overflow:hidden;white-space:nowrap;color:#f0a800;font-style:normal; }
+.store_card_rating strong { color:#5b6472;font-weight:700; }
+.store_card_price { display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:3px; }
+.store_card_price .now { font-weight:800;font-size:18px;letter-spacing:-.5px;color:var(--main); }
+.store_card_price .was { font-size:12.5px;color:#9aa2b1;text-decoration:line-through; }
+.store_card_cta { margin-top:9px;display:flex;gap:8px; }
+.store_card_cta .btn { flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:600; }
+.store_card_warn { font-size:12px;font-weight:600;color:#a52222; }
+.store_meta { display:flex;align-items:center;flex-wrap:wrap;gap:6px; }
+
+/* Dashboard variant of the card: the edit/archive actions sit together and
+   the status chip rides on the thumbnail. */
+.store_card_dash .store_card_status { top:10px;right:10px;left:auto; }
+
+/* ---- Merch strip (watch / article / editor) ------------------------------ */
+.store_merch_row { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px; }
+.store_merch_item { padding:0;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .25s ease,transform .25s ease; }
+.store_merch_item:hover { box-shadow:0 12px 28px -14px rgba(20,24,40,.3);transform:translateY(-2px); }
+.store_merch_thumb { position:relative;display:block;aspect-ratio:16/10;background:var(--store-surface);overflow:hidden; }
+.store_merch_thumb img { width:100%;height:100%;object-fit:cover; }
+.store_merch_meta { padding:11px 13px 13px;display:flex;flex-direction:column;gap:4px; }
+.store_merch_seller { font-size:11.5px;color:#8b93a2;text-decoration:none;text-transform:uppercase;letter-spacing:.3px;font-weight:600; }
+.store_merch_title { font-size:13.5px;line-height:1.35;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+.store_merch_price { font-size:14.5px;font-weight:700; }
+.store_merch_cta { margin-top:8px; }
+.store_merch_cta .btn { display:inline-flex;align-items:center;gap:7px;width:100%;justify-content:center;font-weight:600; }
+
+/* ---- Seller dashboard ---------------------------------------------------- */
+.store_dash_stats, .store_admin_stats { --store-tint-soft:#f1f3f8; }
+.store_dash_hero { display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap; }
+.store_dash_stats { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px; }
+.store_stat { position:relative;overflow:hidden;padding:18px 20px;--store-tint:var(--main);display:flex;flex-direction:column;gap:12px;border:1px solid var(--store-line);box-shadow:0 2px 10px -6px rgba(20,24,40,.14); }
+.store_stat:before { content:'';position:absolute;top:0;right:0;bottom:0;left:0;background:var(--store-tint);opacity:.07;z-index:0;border-radius:var(--store-radius); }
+.store_stat > * { position:relative;z-index:1; }
+.store_stat .k { order:1;font-size:11px;font-weight:700;color:#7d8695;text-transform:uppercase;letter-spacing:.6px; }
+.store_stat .v { order:2;display:flex;align-items:center;gap:12px;font-size:23px;font-weight:800;letter-spacing:-.5px;margin:0;color:#181b25;line-height:1.15;word-break:break-word; }
+.store_stat .v > svg { flex:0 0 auto;width:38px;height:38px;padding:9px;border-radius:50%;color:var(--store-tint);background:var(--store-tint-soft); }
+.store_stat .v sup { font-size:.5em;font-weight:700;top:-.7em;margin-right:2px;color:#7d8695; }
+.store_stat .v .store_status { font-size:13px; }
+.store_stat .sub { order:3;font-size:12.5px;color:#8b93a2; }
+.store_stat.tone-green { --store-tint:#1c7c46; }
+.store_stat.tone-amber { --store-tint:#c98700; }
+.store_stat.tone-violet { --store-tint:var(--main); }
+.store_empty { text-align:center;padding:48px 20px;color:#8b93a2; }
+.store_empty svg { width:54px;height:54px;color:#c4cbd6;margin-bottom:12px; }
+
+/* Stat tile used on the storefront / myshop header */
+
+/* ---- Verification / review banner ---------------------------------------- */
+.store_review_banner { display:flex;align-items:flex-start;gap:14px;padding:18px 20px;border-radius:var(--store-radius);border:1px solid transparent; }
+.store_review_banner .ic { flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.6); }
+.store_review_banner .ic svg { width:22px;height:22px; }
+.store_review_banner.is-review { background:#fff8e8;border-color:#f2dca6;color:#7a5a12; }
+.store_review_banner.is-rejected { background:#fdeeee;border-color:#f0c3c3;color:#8f2b2b; }
+.store_review_banner.is-active { background:#eaf7ef;border-color:#bfe4cd;color:#1c7c46; }
+
+/* ---- Verified store badge ------------------------------------------------ */
+.store_verified_badge { display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:var(--store-radius);background:#eaf7ef;border:1px solid #bfe4cd;color:#1c7c46; }
+.store_verified_badge svg { flex:0 0 auto; }
+.store_verified_badge strong { color:#166b3c; }
+
+/* ---- Product wizard ------------------------------------------------------ */
+.store_wizard_steps { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px; }
+.store_wizard_steps .step { flex:1;min-width:96px;height:56px;display:flex;align-items:center;gap:9px;justify-content:center;padding:0 12px;border-radius:14px;background:var(--store-surface);color:#8b93a2;font-size:13px;font-weight:600;text-align:center;transition:background .2s,color .2s,box-shadow .2s;position:relative; }
+.store_wizard_steps .step .n { display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#fff;color:#8b93a2;font-size:11.5px;font-weight:700;transition:background .2s,color .2s; }
+.store_wizard_steps .step.is-active { background:var(--main);color:var(--main-color);box-shadow:0 8px 18px -8px var(--main); }
+.store_wizard_steps .step.is-active .n { background:rgba(255,255,255,.25);color:#fff; }
+.store_wizard_steps .step.is-done { background:var(--store-tint-soft-green);color:#1c7c46; }
+.store_wizard_steps .step.is-done .n { background:#fff;color:#1c7c46; }
+.store_wizard_panel { display:none; }
+.store_wizard_panel.is-active { display:block; }
+.store_wizard_panel > .form-group:last-child { margin-bottom:0; }
+.store_wizard_panel_inner { margin-top:6px; }
+.store_wizard_nav { display:flex;justify-content:space-between;gap:10px;margin-top:26px;padding-top:20px;border-top:1px solid var(--store-line); }
+.store_wizard_head { display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px; }
+.store_wizard_head .store_wizard_close { flex:0 0 auto; }
+.store_review_box { background:var(--store-surface) !important;border-radius:12px; }
+
+/* Product wizard: the price/stock rows line up cleanly. */
+.store_wizard_panel .custom-control-label { font-size:13.5px;line-height:1.5; }
+
+/* Store forms inherit the theme's floating labels; the label markup now
+   follows the control (input/select/textarea) as the rest of Playtag does. */
+.store_wizard_panel .form-group,
+.store_settings_page .form-group,
+.store_product_page .form-group { margin-bottom:18px; }
+.store_wizard_panel .form-group > small,
+.store_settings_page .form-group > small { display:block;margin-top:6px;color:#8b93a2;font-size:12.5px; }
+.store_upload_grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-top:14px; }
+.store_dropzone { position:relative;display:flex;align-items:center;gap:14px;padding:20px;border:1.5px dashed #d5dae4;border-radius:14px;background:var(--store-surface);cursor:pointer;transition:border-color .2s,background .2s; }
+.store_dropzone:hover, .store_dropzone.is-drag { border-color:var(--main);background:rgb(110 103 204 / 6%); }
+.store_dropzone input[type=file] { position:absolute;width:1px;height:1px;opacity:0;pointer-events:none; }
+.store_dropzone_ic { flex:0 0 auto;width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgb(110 103 204 / 12%);color:var(--main); }
+.store_dropzone_txt { display:flex;flex-direction:column;line-height:1.4; }
+.store_dropzone_txt strong { font-size:14.5px;font-weight:600; }
+.store_dropzone_txt span { font-size:12.5px;color:#8b93a2; }
+.store_upload_item { position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;border:1px solid #e5e9f0;cursor:grab; }
+.store_upload_item img { width:100%;height:100%;object-fit:cover; }
+.store_upload_item .main_tag { position:absolute;top:6px;left:6px;background:var(--main);color:var(--main-color);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px; }
+.store_upload_item .rm { position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:0;line-height:1;font-size:14px; }
+.store_addon_group { margin-bottom:16px; }
+.store_addon_group h6 { font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:#8b93a2;margin-bottom:9px;font-weight:700; }
+.store_attr_row { margin-bottom:14px; }
+.store_variant_row { display:grid;grid-template-columns:1.5fr 1fr .8fr auto;gap:8px;align-items:center;margin-bottom:8px; }
+.store_variant_row .form-control { font-size:13px; }
+.store_zone_row { grid-template-columns:1.4fr 1fr 1fr 1fr auto; }
+.store_pickup_row { grid-template-columns:1.4fr 1.8fr 1fr .7fr auto; }
+.store_slot_row { display:grid;grid-template-columns:1.4fr 1fr 1fr .8fr auto;gap:8px;align-items:center;margin-bottom:8px; }
+
+/* ---- Product detail ------------------------------------------------------ */
+.store_gallery { display:grid;gap:10px; }
+.store_gallery_item { display:block;border-radius:14px;overflow:hidden;background:var(--store-surface); }
+.store_gallery_item img { width:100%;height:100%;object-fit:cover;aspect-ratio:1/1; }
+.store_gallery_placeholder { aspect-ratio:16/10;background:var(--store-surface);border-radius:14px; }
+.store_attr_table { width:100%; }
+.store_attr_table th { width:42%;color:#8b93a2;font-weight:600;padding:8px 0;font-size:13px;vertical-align:top;border-color:var(--store-line); }
+.store_attr_table td { padding:8px 0;font-size:13.5px;border-color:var(--store-line); }
+.store_price_break { border-top:1px solid var(--store-line);margin-top:12px;padding-top:12px; }
+.store_price_break .row-line { display:flex;justify-content:space-between;font-size:13.5px;padding:3px 0;color:#6b7280; }
+.store_price_break .row-line.total { font-size:16px;font-weight:700;color:#181b25;padding-top:8px; }
+
+/* ---- Category chips / kind tabs ------------------------------------------ */
+.store_cat_chip { display:inline-block;padding:6px 14px;border-radius:30px;border:1px solid #e5e9f0;background:#fff;font-size:13px;color:#4b5563;margin:0 8px 8px 0;text-decoration:none !important; }
+.store_cat_chip:hover, .store_cat_chip.is-active { border-color:var(--main);color:var(--main);font-weight:600; }
+.store_kind_tabs .btn { border-radius:30px; }
+
+/* ---- Store settings page ------------------------------------------------- */
+.store_settings_page { --store-radius:16px; }
+.store_settings_tabs { display:flex;gap:8px;flex-wrap:wrap;border:0; }
+.store_settings_tabs .nav-link { border-radius:30px;background:var(--store-surface);color:#5b6472;font-size:13.5px;font-weight:600;padding:9px 18px; }
+.store_settings_tabs .nav-link.active { background:var(--main);color:var(--main-color); }
+.store_type_cards { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px; }
+.store_type_card { text-align:left;display:flex;flex-direction:column;gap:4px;padding:16px 18px;border-radius:14px;border:1.5px solid #e5e9f0;background:#fff;cursor:pointer;transition:border-color .2s,box-shadow .2s; }
+.store_type_card strong { font-size:15px; }
+.store_type_card span { font-size:12.5px;line-height:1.35; }
+.store_type_card:hover { border-color:var(--main); }
+.store_type_card.is-active { border-color:var(--main);box-shadow:0 0 0 3px rgb(110 103 204 / 12%); }
+.store_business_fields { border-top:1px solid var(--store-line);margin-top:8px;padding-top:14px; }
+
+/* ---- Order page ---------------------------------------------------------- */
+.store_order_page .table th { font-size:12px;text-transform:uppercase;letter-spacing:.3px;color:#8b93a2;font-weight:700;border-top:0; }
+.store_order_page .table td { vertical-align:middle;border-color:var(--store-line); }
+.store_summary { position:sticky;top:20px; }
+.product_sticky { position:sticky;top:20px; }
+
+/* ---- Night mode ----------------------------------------------------------
+   body.night-mode is set by the theme shell; night-mode.css is swapped in at
+   runtime. These overrides give the store surfaces the same soft dark palette
+   as the rest of Playtag. */
+.night-mode .store_page, .night-mode .store_product_page, .night-mode .store_order_page,
+.night-mode .store_settings_page { --store-line:#2b2f3a; --store-surface:#1d2029; }
+
+.night-mode .store_card, .night-mode .store_merch_item { background:#1d2029;border-color:#2b2f3a; }
+.night-mode .store_card:hover { box-shadow:0 18px 34px -16px rgba(0,0,0,.6); }
+.night-mode .store_card_thumb, .night-mode .store_merch_thumb, .night-mode .store_gallery_item,
+.night-mode .store_gallery_placeholder { background:linear-gradient(135deg,#1d2029,#181a21); }
+.night-mode .store_card_seller, .night-mode .store_merch_seller, .night-mode .store_stat .k,
+.night-mode .store_addon_group h6 { color:#8b93a2; }
+.night-mode .store_stat .v { color:#f2f4f8; }
+.night-mode .store_card_noimg { color:#3a3f4c; }
+.night-mode .store_card_rating .stars { color:#33383f; }
+.night-mode .store_card_rating strong { color:#ced3d8; }
+.night-mode .store_card_price .was { color:#8891a1; }
+
+/* Settings + wizard surfaces */
+.night-mode .store_settings_page .content { background:#16181f; }
+.night-mode .store_wizard_steps .step { background:#1d2029;color:#8b93a2; }
+.night-mode .store_wizard_steps .step .n { background:#2b2f3a;color:#aeb6c2; }
+.night-mode .store_wizard_steps .step.is-done { background:#16251b;color:#9fd9b6; }
+.night-mode .store_wizard_steps .step.is-done .n { background:#1d2029;color:#9fd9b6; }
+.night-mode .store_wizard_steps .step.is-active { background:var(--main);color:var(--main-color); }
+.night-mode .store_wizard_steps .step.is-active .n { background:rgba(255,255,255,.25);color:#fff; }
+.night-mode .store_settings_tabs .nav-link { background:#1d2029;color:#aeb6c2; }
+.night-mode .store_settings_tabs .nav-link.active { background:var(--main);color:var(--main-color); }
+.night-mode .store_type_card { background:#1d2029;border-color:#2b2f3a; }
+.night-mode .store_cat_chip { background:#1d2029;border-color:#2b2f3a;color:#cdd3de; }
+.night-mode .store_review_box { background:#1d2029 !important; }
+
+/* Forms: match the theme controls and lift labels off the inputs */
+.night-mode .store_wizard_panel .form-control,
+.night-mode .store_settings_page .form-control,
+.night-mode .store_product_page .form-control { background:rgb(255 255 255 / 3%);border-color:#343740;color:#dfe3ea; }
+.night-mode .store_settings_page .form-control:focus,
+.night-mode .store_product_page .form-control:focus { border-color:var(--main);box-shadow:0 0 0 1px var(--main); }
+.night-mode .store_wizard_panel .form-control::placeholder,
+.night-mode .store_settings_page .form-control::placeholder,
+.night-mode .store_product_page .form-control::placeholder { color:#6f7889; }
+.night-mode .store_wizard_panel .form-group > label,
+.night-mode .store_settings_page .form-group > label,
+.night-mode .store_product_page .form-group > label { color:#aeb6c2; }
+.night-mode .store_wizard_panel .form-group > small,
+.night-mode .store_settings_page .form-group > small,
+.night-mode .store_wizard_panel .custom-control-label,
+.night-mode .store_settings_page .custom-control-label { color:#cdd3de; }
+
+/* Uploader + thumbnails */
+.night-mode .store_dropzone { border-color:#3a3f4c; }
+.night-mode .store_dropzone:hover, .night-mode .store_dropzone.is-drag { border-color:var(--main);background:rgb(110 103 204 / 12%); }
+.night-mode .store_dropzone_ic { background:rgb(110 103 204 / 18%); }
+.night-mode .store_upload_item { border-color:#2b2f3a; }
+
+/* Tables, chips and status pills */
+.night-mode .store_attr_table th, .night-mode .store_attr_table td { border-color:#2b2e3a; }
+.night-mode .store_attr_table th { color:#8b93a2; }
+.night-mode .store_order_page .table th { color:#8b93a2; }
+.night-mode .store_order_page .table td { border-color:#2b2e3a; }
+.night-mode .store_status { background:#232733;color:#aeb6c2; }
+.night-mode .store_status-active, .night-mode .store_status-paid,
+.night-mode .store_status-approved, .night-mode .store_status-released { background:#16251b;color:#7fd0a0; }
+.night-mode .store_status-pending, .night-mode .store_status-confirmed,
+.night-mode .store_status-review, .night-mode .store_status-draft { background:#2a2416;color:#e0b85f; }
+.night-mode .store_status-rejected, .night-mode .store_status-cancelled,
+.night-mode .store_status-refunded { background:#2a1a1a;color:#e6a3a3; }
+.night-mode .store_status-inactive, .night-mode .store_status-escrow { background:#232733;color:#8891a1; }
+.night-mode .store_chip { background:#232733;color:#aeb6c2; }
+.night-mode .store_chip.muted { background:transparent; }
+
+/* Stat tiles / banners / verified badge / empty states */
+.night-mode .store_stat { border-color:#2b2f3a;background:#1d2029; }
+.night-mode .store_stat:before { opacity:.10; }
+.night-mode .store_stat .v > svg { background:#232733; }
+.night-mode .store_review_banner.is-review { background:#2a2416;border-color:#403620;color:#e8cf8f; }
+.night-mode .store_review_banner.is-rejected { background:#2a1a1a;border-color:#402a2a;color:#e6a3a3; }
+.night-mode .store_review_banner.is-active { background:#16251b;border-color:#24402f;color:#9fd9b6; }
+.night-mode .store_review_banner .ic { background:rgba(255,255,255,.08); }
+.night-mode .store_verified_badge { background:#16251b;border-color:#24402f;color:#9fd9b6; }
+.night-mode .store_verified_badge strong { color:#9fd9b6; }
+.night-mode .store_empty, .night-mode .store_empty h5 { color:#c4cad6; }
+.night-mode .store_empty svg { color:#3a3f4c; }
+.night-mode .store_wizard_nav { border-color:#2b2e3a; }
+.night-mode .store_price_break { border-color:#2b2e3a; }
+.night-mode .store_price_break .row-line { color:#8b93a2; }
+.night-mode .store_price_break .row-line.total { color:#f2f4f8; }
+.night-mode .store_gallery_item { background:#1d2029; }
+
+/* ---- Responsive ---------------------------------------------------------- */
+@media (max-width: 575.98px) {
+	.store_grid { grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px; }
+	.store_card_body { padding:11px 12px 12px; }
+	.store_card_title { font-size:13.5px;min-height:2.6em; }
+	.store_card_price .now { font-size:15px; }
+	.store_variant_row, .store_zone_row, .store_pickup_row, .store_slot_row { grid-template-columns:1fr 1fr; }
+	.store_variant_row .btn, .store_slot_row .btn { grid-column:span 2; }
+	.store_dash_stats { grid-template-columns:1fr 1fr; }
+	.store_wizard_steps .step { min-width:calc(50% - 4px); }
+}

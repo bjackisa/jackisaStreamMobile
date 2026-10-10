@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Receipt {{doc.number}} - Jackisa Stream</title>
+<!--
+  TEMPLATE: Receipt
+  Generated when: invoice fully paid (status = paid; escrow window starts)
+  Status values: pending | confirmed | approved | paid | closed
+  Syntax: {{var}} value, {{#list}}...{{/list}} loop / conditional block
+-->
+<style>
+:root{--ink:#111827;--muted:#4b5563;--line:#9ca3af;--soft:#d1d5db;--brand:#0b3a82;--tint:#eef2f9;--bg:#e5e7eb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font:13.5px/1.55 Georgia,'Times New Roman',serif;color:var(--ink)}
+/* The page: white sheet, navy frame, faint status watermark (data-status attr) */
+.doc{position:relative;max-width:820px;margin:28px auto;background:#fff;padding:48px 52px;
+     border:1px solid var(--line);outline:3px double var(--brand);outline-offset:-14px;overflow:hidden}
+.doc::before{content:attr(data-status);position:absolute;top:42%;left:50%;transform:translate(-50%,-50%) rotate(-28deg);
+     font:bold 110px Arial,sans-serif;letter-spacing:12px;text-transform:uppercase;color:rgba(11,58,130,.045);pointer-events:none;white-space:nowrap}
+.doc>*{position:relative}
+/* Letterhead: company left, document title right, thick navy rule beneath */
+.head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;padding-bottom:16px;border-bottom:3px solid var(--brand);margin-bottom:2px}
+.head::after{content:none}
+.brand h1{margin:0;font:bold 24px Georgia,serif;color:var(--brand);letter-spacing:.5px}
+.brand small{display:block;margin-top:4px;font:11.5px/1.5 Arial,sans-serif;color:var(--muted)}
+.title{text-align:right}
+.title h2{margin:0 0 6px;font:bold 20px Georgia,serif;letter-spacing:3px;text-transform:uppercase;color:var(--ink)}
+.rule2{border-top:1px solid var(--brand);margin-bottom:18px}
+.meta{margin:8px 0 0 auto;font:12px Arial,sans-serif;border-collapse:collapse}
+.meta td{padding:2px 0 2px 14px;border-bottom:1px dotted var(--soft)}
+.meta td:first-child{color:var(--muted);text-transform:uppercase;font-size:10.5px;letter-spacing:.6px}
+.meta td:last-child{text-align:right;font-family:'Courier New',monospace;font-weight:bold}
+/* Status badge: class st-<status>. Square, bordered, letter-spaced = official stamp look */
+.badge{display:inline-block;padding:2px 12px;border:2px solid currentColor;font:bold 11px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;background:#fff}
+.st-pending{color:#92400e}.st-confirmed{color:#075985}.st-approved{color:#5b21b6}
+.st-paid{color:#166534}.st-closed{color:#374151}
+/* Party boxes */
+.parties{display:flex;gap:0;margin:20px 0;border:1px solid var(--line)}
+.parties div{flex:1;padding:10px 12px;font-size:12.5px}
+.parties div+div{border-left:1px solid var(--line)}
+.parties h3{margin:-10px -12px 8px;padding:5px 12px;background:var(--brand);color:#fff;font:bold 10.5px Arial,sans-serif;letter-spacing:1.2px;text-transform:uppercase}
+.sec h3{margin:0 0 4px}
+/* Itemised table: ruled grid, navy header */
+table.items{width:100%;border-collapse:collapse;margin-top:6px;border:1px solid var(--line)}
+.items th{background:var(--brand);color:#fff;text-align:left;font:bold 10.5px Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;padding:8px}
+.items td{padding:8px;border:1px solid var(--soft);vertical-align:top}
+.items tbody tr:nth-child(even){background:var(--tint)}
+.items small{display:block;color:var(--muted);font:11px Arial,sans-serif}
+.tag{display:inline-block;border:1px solid var(--brand);color:var(--brand);font:bold 9px Arial,sans-serif;letter-spacing:1px;padding:0 5px;margin-right:6px;text-transform:uppercase;vertical-align:1px}
+.num{text-align:right;white-space:nowrap;font-family:'Courier New',monospace}
+.totals{margin:14px 0 0 auto;width:320px;border-collapse:collapse;border:1px solid var(--line)}
+.totals td{padding:5px 10px;border-bottom:1px solid var(--soft)}
+.totals tr.grand td{background:var(--tint);font-weight:bold;font-size:15px;border-top:2px solid var(--brand);border-bottom:3px double var(--brand)}
+.note{border:1px solid var(--brand);border-left:6px solid var(--brand);background:var(--tint);padding:10px 14px;margin:22px 0;font-size:12.5px}
+/* Authorisation block */
+.auth{display:flex;justify-content:space-between;gap:24px;margin-top:26px;font:11px Arial,sans-serif;color:var(--muted)}
+.auth div{flex:1;border-top:1px solid var(--ink);padding-top:4px}
+.about{font-size:11.5px;color:var(--muted);margin-top:18px;text-align:justify}
+.legal{margin-top:20px;border:1px solid var(--line);padding:12px 16px;font-size:11px;line-height:1.5;color:#1f2937;text-align:justify}
+.legal b.h{display:block;margin-bottom:4px;font:bold 11px Arial,sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--brand)}
+.legal ol{margin:0;padding-left:18px}.legal li{margin-bottom:5px}
+.foot{margin-top:18px;padding-top:10px;border-top:3px double var(--brand);font:11px Arial,sans-serif;text-align:center;color:var(--muted)}
+.foot a{color:var(--brand);text-decoration:none;font-weight:bold}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff}.doc{margin:0;max-width:none;border:none}.legal,.items tr,.parties{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="doc" data-status="{{status}}">
+
+<div class="head">
+  <div class="brand">
+    <h1>Jackisa Stream</h1>
+    <small>Jackisa Technologies Limited<br>
+    {{company.address}} &middot; TIN: {{company.tin}}<br>
+    {{company.email}} &middot; {{company.phone}}</small>
+  </div>
+  <div class="title">
+    <h2>Receipt</h2>
+    <span class="badge st-{{status}}">{{status}}</span>
+    <table class="meta">
+      <tr><td>Receipt no.</td><td><b>{{doc.number}}</b></td></tr>
+      <tr><td>Date</td><td>{{doc.date}}</td></tr>
+      <tr><td>Order ref</td><td>{{order.number}}</td></tr>
+      <tr><td>Invoice</td><td>{{invoice.number}}</td></tr><tr><td>Order closes</td><td>{{order.closes_at}}</td></tr>
+    </table>
+  </div>
+</div>
+<div class="rule2"></div>
+
+
+<div class="parties">
+  <div><h3>Billed to (Buyer)</h3><b>{{buyer.name}}</b><br>{{buyer.address}}<br>{{buyer.email}} &middot; {{buyer.phone}}
+    {{#buyer.tin}}<br>TIN: {{buyer.tin}}{{/buyer.tin}}</div>
+  <div><h3>Seller / Service Provider</h3><b>{{seller.name}}</b><br>@{{seller.handle}} on Jackisa Stream
+    {{#seller.tin}}<br>TIN: {{seller.tin}}{{/seller.tin}}</div>
+  <div><h3>Issued by</h3>Jackisa Technologies Limited<br>as platform &amp; payment agent<br>for the Seller</div>
+</div>
+
+
+<table class="items">
+  <thead><tr><th>Description</th><th class="num">Qty / Hrs</th><th class="num">Unit price</th><th class="num">Amount</th></tr></thead>
+  <tbody>
+  {{#items}}
+    <tr><td><span class="tag">{{type}}</span><b>{{description}}</b>
+        <!-- Service-only details: leave empty for physical/digital goods -->
+        {{#service_date}}<small>Service date &amp; time: {{service_date}}</small>{{/service_date}}
+        {{#duration}}<small>Duration / scope: {{duration}}</small>{{/duration}}
+        {{#location}}<small>Location / delivery mode: {{location}}</small>{{/location}}
+        {{#specialist}}<small>Provided by: {{specialist}}</small>{{/specialist}}</td>
+        <td class="num">{{qty}}</td><td class="num">{{unit_price}}</td><td class="num">{{amount}}</td></tr>
+  {{/items}}
+  </tbody>
+</table>
+
+
+<table class="totals">
+  <tr><td>Subtotal</td><td class="num">{{currency}} {{subtotal}}</td></tr>
+  {{#discount}}<tr><td>Discount</td><td class="num">- {{currency}} {{discount}}</td></tr>{{/discount}}
+  {{#tax_total}}<tr><td>Tax ({{tax_rate}}%)</td><td class="num">{{currency}} {{tax_total}}</td></tr>{{/tax_total}}
+  {{#delivery}}<tr><td>Delivery</td><td class="num">{{currency}} {{delivery}}</td></tr>{{/delivery}}
+  <tr class="grand"><td>Total paid</td><td class="num">{{currency}} {{total}}</td></tr>
+  
+</table>
+
+<div class="note">Payment received in full. Your funds are held in escrow until <b>{{order.closes_at}}</b>. Raise any issue before then via your Orders page; after that the order is closed and cannot be reversed.</div>
+
+<p class="about"><b>About us:</b> Jackisa Stream (jackisa.com), operated by Jackisa Technologies Limited,
+is a platform for stories, ideas, knowledge and perspectives from independent creators.
+Jackisa Store lets creators sell products and bookings directly to you on our platform.</p>
+
+<div class="legal"><b class="h">Important Terms</b><ol><li><b>Our role.</b> The Seller named above is the seller of the goods or services. Jackisa Technologies Limited acts only as an intermediary and payment-collection agent, and is not a party to the sale between Buyer and Seller.</li><li><b>Escrow period.</b> We hold the Buyer's payment in escrow for up to 7 days from payment, delivery of goods, or completion of the service (whichever is later). Within that period the Buyer may raise a dispute or request a refund under our Refund Policy. After 7 days the order is closed, funds are released to the Seller, and the payment cannot be reversed.</li><li><b>No control over products.</b> We do not make, inspect, or guarantee the quality, safety, legality or fitness of any product or service listed by Sellers. Buyers may flag a listing, and we may investigate and remove it, but doing so is at our discretion and is not a warranty.</li><li><b>Services.</b> Services (for example development, salon or other bookings) are performed solely by the Seller or its personnel. The Seller is responsible for turning up, performing the work with reasonable skill and care, and any rescheduling or cancellation terms it sets. We do not supervise, certify or guarantee any service provider, and are not liable for the quality, outcome, delay, injury or loss arising from a service.</li><li><b>Limitation of liability.</b> To the fullest extent permitted by the laws of Uganda, Jackisa Technologies Limited is not liable for loss or damage arising from any Seller's products, services, acts or omissions. Nothing here limits any right you cannot lawfully waive.</li><li><b>Electronic record.</b> This document is generated electronically and is valid without signature under the Electronic Transactions Act, 2011. Personal data is handled under the Data Protection and Privacy Act, 2019 and our Privacy Policy.</li><li><b>Governing law.</b> This document and any dispute are governed by the laws of Uganda and subject to the courts of Uganda, after attempting resolution through the contacts below.</li></ol></div>
+<div class="auth">
+  <div>Authorised by Jackisa Technologies Limited<br>System-generated document</div>
+  <div>Verification code: {{doc.verify_code}}<br>Generated: {{doc.generated_at}}</div>
+</div>
+
+<div class="foot">
+  Questions? {{company.email}} &middot; {{company.phone}}<br>
+  <a href="https://jackisa.com/terms/terms">Terms of Use</a> &middot;
+  <a href="https://jackisa.com/terms/refund-policy">Refund Policy</a> &middot;
+  <a href="https://jackisa.com/terms/privacy-policy">Privacy Policy</a> &middot;
+  <a href="https://jackisa.com/terms/about-us">About Us</a><br>
+  &copy; 2026 Jackisa Technologies Limited. All rights reserved.
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+.env
+*.log
+error_log
+cache/
+tmp/
+node_modules/
+vendor/
+assets/store_pdf/
+web/config.php
+*.zip
+*.mp4

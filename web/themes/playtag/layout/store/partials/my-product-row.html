@@ -1,0 +1,14 @@
+<tr>
+	<td>
+		<a href="{{P_URL}}" data-load="?link1=product&id={{P_SLUG}}" class="black bold">{{P_TITLE}}</a>
+		<?php if (!empty($data['P_SKU'])) { ?><div class="small text-muted">SKU {{P_SKU}}</div><?php } ?>
+		<?php if (!empty($data['P_REJECT'])) { ?><div class="small" style="color:#a52222">Not approved: {{P_REJECT}}</div><?php } ?>
+	</td>
+	<td><?php echo ($data['P_KIND'] === 'service') ? 'Service' : 'Product'; ?></td>
+	<td>{{P_PRICE}}</td>
+	<td><span class="store_status store_status-{{P_STATUS}}">{{P_STATUS}}</span></td>
+	<td class="text-right">
+		<button type="button" class="btn btn-sm btn-light store-edit-product" data-id="{{P_ID}}">Edit</button>
+		<button type="button" class="btn btn-sm btn-light store-delete-product" data-id="{{P_ID}}">Archive</button>
+	</td>
+</tr>

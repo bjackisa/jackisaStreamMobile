@@ -1,0 +1,94 @@
+<div class="container tag_import">
+	<h2 class="mt-0 mb-3 display-4">{{LANG import_live_stream}}</h2>
+
+	<div class="mb-5 d-flex align-items-center justify-content-between tag_vid_page_nav">
+		<div class="d-flex align-items-center py-1 tag_vid_page_sub_nav">
+			<a href="{{LINK }}" data-load="?link1=home" class="btn back px-0 d-none d-md-inline-flex">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.57 5.92993L3.5 11.9999L9.57 18.0699" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.5 12H3.67004" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> {{LANG home}}
+			</a>
+			<?php if ($pt->config->live_video == 1 && ($pt->config->who_use_live == 'all' || ($pt->config->who_use_live == 'admin' && PT_IsAdmin()) || ($pt->config->who_use_live == 'pro' && $pt->user->is_pro > 0))) { ?>
+				<a href="{{LINK live}}" data-load="?link1=live" class="btn content">{{LANG live}}</a>
+			<?php } ?>
+		</div>
+	</div>
+
+	<div class="content my-5 p-4 p-md-5 position-relative">
+		<form action="" class="" method="POST" id="import-live-form">
+			<div class="row">
+				<div class="col-lg-5">
+					<div class="form-group">
+						<label class="bold">{{LANG live_source_url}}</label>
+						<input id="live_url" name="live_url" type="text" class="form-control" placeholder="https://www.youtube.com/watch?v=..." autofocus required>
+						<small class="form-text text-muted">{{LANG import_live_desc}}</small>
+					</div>
+
+					<div class="form-group">
+						<label class="bold">{{LANG category}}</label>
+						<select id="category" class="form-control" name="category">
+							<option value="0">{{LANG none}}</option>
+							<?php foreach ($pt->categories as $key => $category) { ?>
+								<option value="<?php echo $key; ?>"><?php echo $category; ?></option>
+							<?php } ?>
+						</select>
+					</div>
+
+					<div class="mb-4">
+						<label class="bold">{{LANG privacy}}</label>
+						<div class="custom-control custom-radio mb-1">
+							<input type="radio" id="privacy0" name="privacy" value="0" class="custom-control-input" checked>
+							<label class="custom-control-label" for="privacy0">{{LANG public}}</label>
+						</div>
+						<div class="custom-control custom-radio mb-1">
+							<input type="radio" id="privacy1" name="privacy" value="1" class="custom-control-input">
+							<label class="custom-control-label" for="privacy1">{{LANG private}}</label>
+						</div>
+						<div class="custom-control custom-radio">
+							<input type="radio" id="privacy2" name="privacy" value="2" class="custom-control-input">
+							<label class="custom-control-label" for="privacy2">{{LANG unlisted}}</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-7">
+					<div class="form-group">
+						<input id="live_title" name="title" type="text" class="form-control" placeholder=" ">
+						<label for="live_title">{{LANG video_title}}</label>
+					</div>
+
+					<div class="form-group">
+						<textarea name="description" id="live_description" placeholder=" " rows="7" class="form-control description"></textarea>
+						<label for="live_description">{{LANG video_descritpion}}</label>
+					</div>
+
+					<div class="alert alert-info">
+						<strong>{{LANG live_source_youtube}}:</strong> {{LANG live_source_youtube_help}}<br>
+						<strong>{{LANG live_source_remote}}:</strong> {{LANG live_source_remote_help}}
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-main">{{LANG import_live_stream}}</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+$(function () {
+	$('#import-live-form').ajaxForm({
+		url: '{{CONFIG site_url}}/aj/import-live?hash=' + $('.main_session').val(),
+		beforeSend: function () {
+			$('#import-live-form').find('.btn-main').attr('disabled', 'true');
+		},
+		success: function (data) {
+			$('#import-live-form').find('.btn-main').removeAttr('disabled');
+			if (data.status == 200) {
+				window.location.href = data.url;
+			} else {
+				var message = data.message || '{{LANG live_import_invalid}}';
+				if (typeof PT_Toast !== 'undefined') { PT_Toast(message); } else { alert(message); }
+			}
+		}
+	});
+});
+</script>

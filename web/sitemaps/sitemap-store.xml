@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+                                <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+                              <loc>https://jackisa.com/store</loc>
+                              <lastmod>2026-10-09T17:02:43+00:00</lastmod>
+                              <changefreq>weekly</changefreq>
+                              <priority>0.7</priority>
+                           </url>
+<url>
+                              <loc>https://jackisa.com/product/bra</loc>
+                              <lastmod>2026-10-09T17:02:43+00:00</lastmod>
+                              <changefreq>weekly</changefreq>
+                              <priority>0.8</priority>
+                           </url>
+<url>
+                              <loc>https://jackisa.com/@bjackisa?page=store</loc>
+                              <lastmod>2026-10-09T17:02:43+00:00</lastmod>
+                              <changefreq>weekly</changefreq>
+                              <priority>0.6</priority>
+                           </url>
+</urlset>

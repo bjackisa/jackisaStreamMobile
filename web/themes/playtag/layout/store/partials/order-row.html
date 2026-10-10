@@ -1,0 +1,8 @@
+<tr>
+	<td><a href="{{O_URL}}" data-load="?link1=order&id={{O_NUMBER}}" class="black bold">{{O_NUMBER}}</a></td>
+	<td><?php echo $data['O_SELLER_VIEW'] ? htmlentities($data['O_COUNTERPART'], ENT_QUOTES) : ($data['O_KIND'] === 'booking' ? 'Booking' : 'Order'); ?></td>
+	<td>{{O_DATE}}</td>
+	<td>{{O_TOTAL}}</td>
+	<td><span class="store_status store_status-{{O_STATUS}}">{{O_STATUS}}</span></td>
+	<td class="text-right">{{O_ACTIONS}}</td>
+</tr>
